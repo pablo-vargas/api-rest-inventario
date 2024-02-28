@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { DB_CONFIG, JWT_CONFIG } from './shared/config-global';
+import { CurrenciesModule } from './modules/currencies/currencies.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -20,15 +22,18 @@ import { DB_CONFIG, JWT_CONFIG } from './shared/config-global';
       }
     ),
 
-    TypeOrmModule.forRoot(DB_CONFIG)
+    TypeOrmModule.forRoot(DB_CONFIG),
+    ScheduleModule.forRoot(),
+
+    CurrenciesModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
+  /*configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware)
       .exclude({ path: '/auth/signin', method: RequestMethod.POST })
       .forRoutes('*');
-  }
+  }*/
 }
