@@ -52,8 +52,10 @@ export class CompanyService {
     }
 
     async deleteCompany(id: number): Promise<{ error: string[] }> {
+        const company = await this.companyEntity.findOne({ where: { id } });
+        if (!company) return { error: ["La empresa no existe."] }
         const result = await this.companyEntity.delete(id);
-        if (result.affected === 0) return { error: ["La empresa no existe"] }
-        return
+        if (result.affected === 0) return { error: ["Error al eliminar."] }
+        return 
     }
 }

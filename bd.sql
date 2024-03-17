@@ -5,18 +5,18 @@ create table role(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 insert into role(id,description) values (1,'Administrador'),(2,'Gerente'),(3,'Supervisor'),(4,'Cajero'),(5,'Inventario')
 
-create table users(
-    id int auto_increment primary key,
-    first_name varchar(85),
-    last_name varchar(80),
-    email varchar(100),
-    email_verified int default 0,
-    password varchar(256) not null,
-    image varchar(200),
-    status int default 1,
-    created_at BIGINT,
-    updated_at BIGINT
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+    create table users(
+        id int auto_increment primary key,
+        first_name varchar(85),
+        last_name varchar(80),
+        email varchar(100),
+        email_verified int default 0,
+        password varchar(256) not null,
+        image varchar(200),
+        status int default 1,
+        created_at BIGINT,
+        updated_at BIGINT
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 

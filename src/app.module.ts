@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthToken } from './shared/auth.token';
 import { CompanyModule } from './modules/company/company.module';
+import { TpyeCompanyModule } from './modules/tpye-company/type-company.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CompanyModule } from './modules/company/company.module';
     ScheduleModule.forRoot(),
     AuthModule,
     CompanyModule,
+    TpyeCompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -34,7 +36,6 @@ import { CompanyModule } from './modules/company/company.module';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware)
-      .exclude({ path: '/auth/signin', method: RequestMethod.POST })
-      .forRoutes('*');
+    .forRoutes({path: '*', method: RequestMethod.ALL})
   }
 }

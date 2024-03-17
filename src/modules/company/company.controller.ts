@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, Put, Query, UseGuards, Version } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDTO } from './dto/create-company.dto';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -21,61 +21,61 @@ export class CompanyController {
         let result = await this.companyService.createCompany(createCompanyDTO);
         if ('error' in result) throw new HttpException(result.error, HttpStatus.FORBIDDEN);
         return {
-            statusCode:HttpStatus.OK,
-            message:["Creado correctmente"],
-            data:result
+            statusCode: HttpStatus.OK,
+            message: ["Creado correctmente"],
+            data: result
         }
     }
 
- 
-    @ApiOperation({summary:"PAGINACION TABLA EMPRESAS"})
+
+    @ApiOperation({ summary: "PAGINACION TABLA EMPRESAS" })
     @Get()
     async getAllCompanies(@Query() queryParams: PaginateSwagger) {
-       
-        let rows =await  this.companyService.getAllCompanies(queryParams);
+
+        let rows = await this.companyService.getAllCompanies(queryParams);
         return {
-            statusCode:HttpStatus.OK,
-            message:["OK"],
+            statusCode: HttpStatus.OK,
+            message: ["OK"],
             ...rows
         }
     }
 
     @Get(':id')
-    @Roles(Role.ADMIN,Role.MANAGEMENT)
-    async getCompanyById(@Param('id') id: number){
+    @Roles(Role.ADMIN, Role.MANAGEMENT)
+    async getCompanyById(@Param('id') id: number) {
         let result = await this.companyService.getCompanyById(id);
-        if ('error' in result) throw new HttpException(result.error, HttpStatus.FORBIDDEN);
+        if ('error' in result) throw new HttpException({ statusCode: HttpStatus.FORBIDDEN, message: result.error }, HttpStatus.FORBIDDEN);
         return {
-            statusCode:HttpStatus.OK,
-            message:["OK"],
-            data:result
+            statusCode: HttpStatus.OK,
+            message: ["OK"],
+            data: result
         }
     }
 
     @Put(':id')
-    @Roles(Role.ADMIN,Role.MANAGEMENT)
+    @Roles(Role.ADMIN, Role.MANAGEMENT)
     async updateCompany(
         @Param('id') id: number,
         @Body() updateCompanyDTO: Partial<CreateCompanyDTO>,
     ) {
-        let result =  this.companyService.updateCompany(id, updateCompanyDTO);
-        if ('error' in result) throw new HttpException(result.error, HttpStatus.FORBIDDEN);
+        let result = await this.companyService.updateCompany(id, updateCompanyDTO);
+        if ('error' in result) throw new HttpException({ statusCode: HttpStatus.FORBIDDEN, message: result.error }, HttpStatus.FORBIDDEN);
         return {
-            statusCode:HttpStatus.OK,
-            message:["Modificado correctamente"],
-            data:result
+            statusCode: HttpStatus.OK,
+            message: ["Modificado correctamente"],
+            data: result
         }
     }
 
     @Delete(':id')
+    @Version('1')
     @Roles(Role.MANAGEMENT)
     async deleteCompany(@Param('id') id: number) {
-        let result =  this.companyService.deleteCompany(id);
-        if ('error' in result) throw new HttpException(result.error, HttpStatus.FORBIDDEN);
+        let result = await this.companyService.deleteCompany(id);
+        if ('error' in result) throw new HttpException({ statusCode: HttpStatus.FORBIDDEN, message: result.error }, HttpStatus.FORBIDDEN);
         return {
-            statusCode:HttpStatus.OK,
-            message:["Creado correctmente"],
-            data:result
+            statusCode: HttpStatus.OK,
+            message: ["Eliminado correctamente"]
         }
     }
 }
