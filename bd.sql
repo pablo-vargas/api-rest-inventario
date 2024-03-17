@@ -1,4 +1,9 @@
 
+create table role(
+    id int primary key,
+    description varchar(50)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+insert into role(id,description) values (1,'Administrador'),(2,'Gerente'),(3,'Supervisor'),(4,'Cajero'),(5,'Inventario')
 
 create table users(
     id int auto_increment primary key,
@@ -10,15 +15,18 @@ create table users(
     image varchar(200),
     status int default 1,
     created_at BIGINT,
-    updated_at BIGINT,
-    rol int not null default 0
+    updated_at BIGINT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 
 create table type_company(
     id int auto_increment primary key,
-    description varchar(20)
+    description varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+insert into type_company(description) values('Punto de venta'), ('Cafeteria'), ('Pizzeria');
 
 create table company(
     id int auto_increment primary key,
@@ -37,14 +45,18 @@ create table company(
     foreign key (id_type_company) references type_company(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
 create table role_user(
     id int auto_increment primary key,
-    role varchar(30),
+    id_role int not null,
     id_user int not null,
     id_company int not null,
     foreign key (id_user) references users(id),
-    foreign key (id_company) references company(id)
+    foreign key (id_company) references company(id),
+    foreign key (id_role) references role(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 create table category(
     id int auto_increment primary key,

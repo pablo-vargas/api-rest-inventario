@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, AfterLoad } from 'typeorm';
+import { RoleUserEntity } from './role-user.entity';
 
 @Entity('users')
-export class UserEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,6 +32,13 @@ export class UserEntity {
   @Column({ name: 'updated_at' })
   updatedAt: number;
 
-  @Column({ name:"rol",default: 0 })
-  rol: number;
+  /*updated:string
+  @AfterLoad()
+  setCombined() {
+    this.updated =  new Date(this.updatedAt).toDateString()
+  }*/
+
+  @OneToMany(() => RoleUserEntity, roleUser => roleUser.user)
+  roles: RoleUserEntity[];
+
 }

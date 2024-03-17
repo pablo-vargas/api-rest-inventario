@@ -18,4 +18,6 @@ const JWT_CONFIG: JwtModuleOptions = {
   global: true
 }
 
-export { DB_CONFIG, JWT_CONFIG }
+const MONGO_CONFIG="mongodb://127.0.0.1:27017/inventario"
+
+export { DB_CONFIG, JWT_CONFIG,MONGO_CONFIG }
