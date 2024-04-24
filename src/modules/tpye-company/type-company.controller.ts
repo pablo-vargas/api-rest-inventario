@@ -1,15 +1,17 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Role } from 'src/shared/role/role.guard';
 import { Roles } from 'src/shared/role/roles.decorator';
 import { TpyeCompanyService } from './type-company.service';
 import { CreateTypeCompanyDTO } from './dto/create-type-company.dto';
 import { PaginateSwagger } from 'src/shared/paginate/query-paginate';
+import { ApiOkResponsePaginated, ResponseDTO, ResponsePaginateDTO } from 'src/shared/response.dto';
 
 @Controller('type-company')
 @ApiTags("Tipo empresas")
 @ApiBearerAuth("authorization")
 @Roles(Role.ADMIN)
+@ApiResponse({type:ResponseDTO})
 export class TpyeCompanyController {
 
     constructor(private readonly typeCompanyService: TpyeCompanyService) { }
@@ -27,6 +29,7 @@ export class TpyeCompanyController {
 
 
     @ApiOperation({ summary: "PAGINACION TABLA TIPO EMPRESAS" })
+    @ApiOkResponsePaginated(CreateTypeCompanyDTO)
     @Get()
     async getAll(@Query() queryParams: PaginateSwagger) {
 
